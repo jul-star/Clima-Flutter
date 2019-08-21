@@ -1,18 +1,16 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:flutter/foundation.dart';
 
 class Location {
-  Location({@required this.callback});
-  Function(String, String) callback;
+  String latitude;
+  String longtitude;
 
   void getCurrentPosition() async {
     Position position;
     try {
       position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
-      String latitude = position.latitude.toString();
-      String longtitude = position.longitude.toString();
-      callback(latitude, longtitude);
+      latitude = position.latitude.toString();
+      longtitude = position.longitude.toString();
     } catch (e) {
       print('Error: ' + e);
     }
