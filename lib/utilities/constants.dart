@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 const kTempTextStyle = TextStyle(
   fontFamily: 'Spartan MB',
+  fontSize: 40.0,
+);
+const kPositionTextStyle = TextStyle(
+  fontFamily: 'Spartan MB',
   fontSize: 20.0,
 );
 
