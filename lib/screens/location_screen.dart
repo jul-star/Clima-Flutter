@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
+import 'package:clima/services/weather.dart';
 
+//TODO: 08:50/15:13 14
 class LocationScreen extends StatefulWidget {
-  LocationScreen({this.weather, this.position});
+  LocationScreen({this.weather, this.position, this.condition});
   final weather;
   final position;
+  final condition;
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
@@ -19,6 +22,9 @@ class _LocationScreenState extends State<LocationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String position = widget.position;
+    String weather = widget.weather;
+    int condition = widget.condition;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -39,7 +45,15 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      WeatherModel wm = WeatherModel();
+                      var decodingResponse = wm.GetWeatherData();
+                      setState(() {
+                        position = wm.getPosition();
+                        weather = wm.parseWeatherResponse(decodingResponse);
+                        condition = wm.parseWeatherCondition(decodingResponse);
+                      });
+                    },
                     child: Icon(
                       Icons.near_me,
                       size: 50.0,
@@ -60,7 +74,14 @@ class _LocationScreenState extends State<LocationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Text(
-                      widget.position,
+                      position,
+                      style: kTempTextStyle,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      WeatherModel().getWeatherIcon(condition),
                       style: kTempTextStyle,
                     ),
                     SizedBox(
